@@ -26,7 +26,7 @@ def convertToGrayScale(path,display):
     return pic
 
 # samo za gray-scale slike
-def createHistogram(path, pic, cumulative, show_pic,show_hist):
+def createHistogram(path, pic, cumulative, show_pic, show_hist):
     if path is not None:
         pic = importPic(path,show_pic,0)
     hist = [0] * 256
@@ -92,7 +92,7 @@ def equalizeHistogram2(path):
     show(pic, "izjednacen histogram")
 
 def gammaCorrection(path, correction):
-    gray = convertToGrayScale(path,True)
+    gray = convertToGrayScale(path, True)
     corr = np.uint8(cv2.pow(gray/255.0, correction)*255)
     show(corr, "Gamma korekcija")
 
@@ -565,7 +565,7 @@ def plot(pic, cumulative):
 
 if __name__ == '__main__':
     #1) Transformacija slike u boji u sliku sivih razina
-    #convertToGrayScale('C:\\Users\\Luka\\Desktop\\b.jpg',True)
+    convertToGrayScale('C:\\Users\\Luka\\Desktop\\b.jpg',True)
     #2) Računanje histograma i kumulativnog histograma
     #createHistogram('C:\\Users\\Luka\\Desktop\\b.jpg',None,False,True,True)
     #createHistogram('C:\\Users\\Luka\\Desktop\\b.jpg', None, True, False, True)
