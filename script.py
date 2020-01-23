@@ -74,6 +74,18 @@ def create_subbands_histograms(pic, first = 0, last = 64):
         plt.show()
 
 
+def three21(img):
+    final = []
+    for row in range(img.shape[0]):
+        temp = []
+        for col in range(img.shape[1]):
+            temp.append(img[row][col][0])
+        final.append(temp)
+    final = np.array(final)
+
+    return final
+
+
 def double_compresion():
     # load tif image
     img_name = 'ucid00024.tif'
@@ -94,13 +106,7 @@ def double_compresion():
     gray = seminar.convertToGrayScale(jpg_path2, False)
 
     # reducing data from 3 to 1 chanel
-    final = []
-    for row in range(gray.shape[0]):
-        temp = []
-        for col in range(gray.shape[1]):
-            temp.append(gray[row][col][0])
-        final.append(temp)
-    final = np.array(final)
+    final = three21(gray)
 
     return final
 
@@ -109,12 +115,18 @@ def main():
     final_path = 'ws/final.jpg'
 
     img = double_compresion()
+
+    create_subbands_histograms(img, 18, 19)
     seminar.createHistogram(None, img, False, False, True)
+
     corected = gama_corection(img, determine_gama(img))
+
     seminar.createHistogram(None, corected, False, False, True)
+
     corected = np.float32(corected)
     deblocked = restoration.denoise_tv_bregman(corected, 2)
     deblocked = np.uint8(deblocked)
+
     seminar.createHistogram(None, deblocked, False, False, True)
     create_subbands_histograms(deblocked, 18, 19)
 
